@@ -56,7 +56,7 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    app.listen(config.port, () => {
+    app.listen(config.port,"0.0.0.0", () => {
       console.log(`Auth Service running on port ${config.port}`);
       console.log(`Environment: ${config.nodeEnv}`);
     });
