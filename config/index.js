@@ -19,7 +19,7 @@ const COOKIE_NAMES = Object.freeze({
 });
 
 module.exports = {
-  port: Number(process.env.PORT || 3001),
+  port: Number(process.env.PORT || 8080),
   mongoUri: process.env.MONGO_URI || null,
   jwtSecret,
   jwtAccessSecret: process.env.JWT_ACCESS_SECRET || jwtSecret,
