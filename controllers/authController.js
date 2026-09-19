@@ -63,9 +63,35 @@ exports.login = async (req, res) =>
     await issueSession(req.user, req, res)
   );
 
+// exports.oauthLogin = async (req, res) => {
+//   await issueSession(req.user, req, res);
+//   return res.redirect(config.oauthSuccessRedirect);
+// };
+
 exports.oauthLogin = async (req, res) => {
-  await issueSession(req.user, req, res);
-  return res.redirect(config.oauthSuccessRedirect);
+  try {
+    console.log("===== GOOGLE OAUTH LOGIN =====");
+    console.log("req.user:", req.user);
+    console.log("User ID:", req.user?._id || req.user?.id);
+    console.log("Before cookies:", res.getHeaders()["set-cookie"]);
+
+    const result = await issueSession(req.user, req, res);
+
+    console.log("issueSession result:", result);
+    console.log("After cookies:", res.getHeaders()["set-cookie"]);
+
+    console.log("Redirect:", config.oauthSuccessRedirect);
+
+    return res.redirect(config.oauthSuccessRedirect);
+  } catch (error) {
+    console.error("===== GOOGLE OAUTH SESSION ERROR =====");
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Google session creation failed",
+    });
+  }
 };
 
 exports.refresh = async (req, res) => {
